@@ -50,7 +50,7 @@
                     @Html.DisplayFor(modelItem => item.Salary)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.EmpId" class="btn btn-warning">編輯</a>
+                    <a asp-action="Update" asp-route-id="@item.EmpId" class="btn btn-warning">編輯</a>
                     <a asp-action="Delete" asp-route-id="@item.EmpId" class="btn btn-danger"
                         onclick="return confirm('確定要刪除  @item.EmpId 員工嗎?');">刪除</a>
                 </td>

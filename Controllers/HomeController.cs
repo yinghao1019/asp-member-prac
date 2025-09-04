@@ -48,7 +48,43 @@ public class HomeController : Controller
         return View(employee);
     }
 
+    public IActionResult Update(int id)
+    {
+        var employee = _context.Employees.FirstOrDefault(employee => employee.EmpId == id);
+        return View(employee);
+    }
 
+    [HttpPost]
+    public IActionResult Update(Employee employee)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Employees.Add(employee);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating employee");
+            ModelState.AddModelError(string.Empty, "An error occurred while creating the employee.");
+        }
+        return View(employee);
+    }
+
+    public IActionResult Delete(int id)
+    {
+
+
+        var employee = _context.Employees.FirstOrDefault(employee => employee.EmpId == id);
+        _context.Employees.Remove(employee);
+        _context.SaveChanges();
+
+        return RedirectToAction("Index");
+
+    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
