@@ -37,11 +37,13 @@ public class HomeController : Controller
             {
                 _context.Employees.Add(employee);
                 _context.SaveChanges();
+                TempData["Success"] = "建立成功" + employee.EmpId;
                 return RedirectToAction("Index");
             }
         }
         catch (Exception ex)
         {
+            TempData["Success"] = "建立失敗" + employee.EmpId;
             _logger.LogError(ex, "Error creating employee");
             ModelState.AddModelError(string.Empty, "An error occurred while creating the employee.");
         }
@@ -63,11 +65,13 @@ public class HomeController : Controller
             {
                 _context.Employees.Add(employee);
                 _context.SaveChanges();
+                TempData["Success"] = "更新成功" + employee.EmpId;
                 return RedirectToAction("Index");
             }
         }
         catch (Exception ex)
         {
+            TempData["Error"] = "更新失敗" + employee.EmpId;
             _logger.LogError(ex, "Error creating employee");
             ModelState.AddModelError(string.Empty, "An error occurred while creating the employee.");
         }
@@ -81,7 +85,7 @@ public class HomeController : Controller
         var employee = _context.Employees.FirstOrDefault(employee => employee.EmpId == id);
         _context.Employees.Remove(employee);
         _context.SaveChanges();
-
+        TempData["Success"] = "刪除成功";
         return RedirectToAction("Index");
 
     }
