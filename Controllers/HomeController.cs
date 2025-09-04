@@ -23,10 +23,32 @@ public class HomeController : Controller
         return View(employees);
     }
 
-    public IActionResult Privacy()
+    public IActionResult Create()
     {
         return View();
     }
+
+    [HttpPost]
+    public IActionResult Create(Employee employee)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Employees.Add(employee);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating employee");
+            ModelState.AddModelError(string.Empty, "An error occurred while creating the employee.");
+        }
+        return View(employee);
+    }
+
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
