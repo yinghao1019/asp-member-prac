@@ -1,8 +1,66 @@
-﻿@{
+﻿@model IEnumerable<asp_member_prac.Models.Employee>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+<h1>員工列表</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmploymentDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.EmpId
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salary)
+                </td>
+                <td>
+                    @{
+                        DateTime date = DateTime.Parse(item.EmploymentDate.ToString());
+                    }
+                    @date.ToShortDateString()
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.EmpId" class="btn btn-warning">編輯</a>
+                    <a asp-action="Delete" asp-route-id="@item.EmpId" class="btn btn-danger"
+                        onclick="return confirm('確定要刪除  @item.EmpId 員工嗎?');">刪除</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
